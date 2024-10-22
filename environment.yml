@@ -1,0 +1,10 @@
+name: asl_transcriber
+channels:
+  - defaults
+dependencies:
+  - python=3.9
+  - tensorflow
+  - keras
+  - opencv
+  - numpy
+  - jupyter
