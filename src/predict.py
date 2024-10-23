@@ -85,89 +85,12 @@ def detect_hands_with_camera():
     cv2.destroyAllWindows()
     print("Final detected text: ", detected_text)
 
-# def display_black_screen(image_shape, duration=5):
-#     """Display a black screen with the same size as the images for a brief moment."""
-#     black_image = np.zeros(image_shape, dtype=np.uint8)  # Create a black image with the same shape
-#     cv2.imshow('ASL Translation', black_image)
-#     cv2.waitKey(duration)  # Display the black screen for the specified duration (in milliseconds)
-def display_black_screen(image_shape, duration=500):
-    """Display a red screen with the same size as the images for a brief moment."""
-    red_image = np.zeros(image_shape, dtype=np.uint8)  # Create an image with the same shape
-    red_image[:] = [0, 0, 255]  # Set all pixels to red (BGR format)
-    cv2.imshow('ASL Translation', red_image)
-    cv2.waitKey(duration)  # Display the red screen for the specified duration (in milliseconds)
-
-# def speech_to_images():
-#     """
-#     Listens for speech, translates it to text, and displays corresponding ASL images as a slideshow.
-#     Includes a red screen when an underscore character is detected.
-#     """
-#     recognizer = sr.Recognizer()
-
-#     try:
-#         with sr.Microphone() as source:
-#             print("Listening for speech...")
-#             recognizer.adjust_for_ambient_noise(source)
-#             audio = recognizer.listen(source)
-
-#             # Recognize speech using Google's speech-to-text API
-#             speech_text = recognizer.recognize_google(audio).upper()
-#             # Insert underscores between consecutive identical characters
-#             processed_text = []
-#             for i, char in enumerate(speech_text):
-#                 # Always add the current character
-#                 processed_text.append(char)
-                
-#                 # If the next character is the same, add an underscore between them
-#                 if i < len(speech_text) - 1 and speech_text[i] == speech_text[i + 1]:
-#                     processed_text.append('_')  # Add an underscore between identical letters
-
-#             # Join the list into a new string
-#             speech_text = ''.join(processed_text)
-
-#             print(f"Recognized text: {speech_text}")
-
-#             # Convert speech text to ASL images slideshow
-#             last_img_shape = None  # Variable to store the shape of the last image
-#             for char in speech_text:
-#                 if char == "_":
-#                     # Display the red screen for 500 milliseconds, using the last image's shape
-#                     if last_img_shape is not None:
-#                         print("Displaying red screen for underscore")
-#                         display_black_screen(last_img_shape, duration=500)  # Show the red screen for 0.5 seconds
-#                         cv2.waitKey(1000)  # Show each image for 1 second
-
-#                     else:
-#                         print("No previous image to match the red screen size.")
-#                 elif char.isalnum():  # Check if char is a letter or digit
-#                     image_folder = f"../data/asl_dataset/{char}"  # Folder for the specific letter/digit
-#                     if os.path.exists(image_folder):
-#                         # Get the first image in the folder
-#                         image_files = [f for f in os.listdir(image_folder) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
-#                         if image_files:
-#                             image_path = os.path.join(image_folder, image_files[0])  # Use the first image found
-#                             print(f"Displaying {image_path}")
-#                             img = cv2.imread(image_path)
-
-#                             if img is not None:
-#                                 last_img_shape = img.shape  # Store the shape of the last image
-#                                 # Display the image
-#                                 cv2.imshow(f'ASL Translation: {char}', img)
-#                                 cv2.waitKey(1000)  # Show each image for 1 second
-#                             else:
-#                                 print(f"Error: Could not read {image_path}")
-#                         else:
-#                             print(f"No image files found for {char}")
-#                     else:
-#                         print(f"No folder found for {char}")
-
-#     except sr.UnknownValueError:
-#         print("Sorry, I could not understand the audio.")
-#     except sr.RequestError:
-#         print("Error connecting to the speech recognition service.")
-#     finally:
-#         cv2.destroyAllWindows()
-
+def display_black_screen(image_shape, duration=200):
+    """Display a black screen with the same size as the images for a brief moment."""
+    black_image = np.zeros(image_shape, dtype=np.uint8)  # Create a black image with the same shape
+    cv2.imshow('ASL Translation', black_image)
+    cv2.waitKey(duration)  # Display the black screen for the specified duration (in milliseconds)
+    
 def speech_to_images():
     """
     Listens for speech, translates it to text, and displays corresponding ASL images as a slideshow.
@@ -201,8 +124,13 @@ def speech_to_images():
                                 # Display the image
                                 cv2.imshow(f'ASL Translation: {char}', img)
                                 cv2.waitKey(1000)  # Show each image for 1 second
+                                cv2.destroyAllWindows()
                             else:
                                 print(f"Error: Could not read {image_path}")
+                            # Display the black image after showing the ASL image
+                            black_image = np.zeros(img.shape, dtype=np.uint8)
+                            cv2.imshow('ASL Translation', black_image)
+                            cv2.waitKey(100)  # Display the black screen for 0.2 seconds
                         else:
                             print(f"No image files found for {char}")
                     else:
