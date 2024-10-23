@@ -1,2 +1,2 @@
-# ml-model
-A machine learning model deployment platform where users can upload inputs and receive predictions in real-time, such as image classification or spam detection.
+# asl-ml-model
+This project transcribes American Sign Language (ASL) gestures into text using a webcam and a trained CNN model. It also converts spoken words into ASL images. Built with Python, TensorFlow, OpenCV, and SpeechRecognition.

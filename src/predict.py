@@ -90,6 +90,7 @@ def display_black_screen(image_shape, duration=200):
     black_image = np.zeros(image_shape, dtype=np.uint8)  # Create a black image with the same shape
     cv2.imshow('ASL Translation', black_image)
     cv2.waitKey(duration)  # Display the black screen for the specified duration (in milliseconds)
+    
 def speech_to_images():
     """
     Listens for speech, translates it to text, and displays corresponding ASL images as a slideshow.
